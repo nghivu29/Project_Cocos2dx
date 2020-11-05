@@ -9,13 +9,10 @@ cocos2d::Scene * SceneGamePlay::createScene()
 
 bool SceneGamePlay::init()
 {
-	if (!( Scene::init() && initBeatSlider() && initHero()))
+	if (!( Scene::init() && initBeatSlider() && initHero() && initEventListenerKeyboard()))
 	{
 		return false;
 	}
-
-	// set debug raw
-	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	// loop test music
 	auto listener = EventListenerTouchOneByOne::create();
@@ -33,7 +30,6 @@ bool SceneGamePlay::init()
 void SceneGamePlay::update(float dt)
 {
 	_beatSlider->update(dt);
-	updateHeroStatus(dt);
 }
 
 bool SceneGamePlay::initBeatSlider()
@@ -57,10 +53,35 @@ bool SceneGamePlay::initHero()
 	return true;
 }
 
-void SceneGamePlay::updateHeroStatus(float dt)
+/*
+* Key Z: là NORMAL_ATTACK
+* Key X: là STRONG_ATTACK
+*/
+bool SceneGamePlay::initEventListenerKeyboard()
 {
-	_hero->setHitStatus(_beatSlider->getHitStatus());
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = [&](EventKeyboard::KeyCode k, Event* e) {
+		_beatSlider->onKeyPressed(k, e);
+		switch (_beatSlider->getHitStatus())
+		{
+		case EHitStatus::PERFECT:
+			_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 0);
+			break;
+		case EHitStatus::GOOD:
+			_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 1);
+			break;
+		case EHitStatus::MISS:
+			_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 2);
+			break;
+		default:
+			break;
+		}
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+	return true;
 }
+
+
 
 
 

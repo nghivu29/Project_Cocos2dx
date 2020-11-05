@@ -29,13 +29,6 @@ bool CBeatSlider::init()
 	{
 		return false;
 	}
-
-	auto keyListener = EventListenerKeyboard::create();
-	keyListener->onKeyPressed = [&](EventKeyboard::KeyCode k, Event* e) {
-		onKeyPressed(k, e); 
-	};
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
-
 	return true;
 }
 

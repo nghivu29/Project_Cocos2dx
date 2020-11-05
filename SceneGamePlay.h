@@ -23,7 +23,7 @@ public:
 private:
 	bool initBeatSlider();
 	bool initHero();
+	bool initEventListenerKeyboard();
 
-	void updateHeroStatus(float dt);
 };
 

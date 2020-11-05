@@ -37,6 +37,9 @@ public:
 	void moveBeat(int i);
 	void resetBeat(int i);
 
+	// event listener
+	void onKeyPressed(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
+
 	// getter
 	int getHitStatus();
 
@@ -49,10 +52,7 @@ private:
 	void updateMusic(float dt);
 	void updateBeats(float dt);
 	void updateStatus(float dt);
-
-	// event listener
-	void onKeyPressed(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
-
+	
 	void showHitStatus();
 };
 

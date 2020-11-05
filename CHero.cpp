@@ -6,123 +6,104 @@ USING_NS_CC;
 
 bool CHero::init()
 {
-	if (!(Sprite::initWithFile(PNG_HERO1_00) && initAnimate() && initKeyboard()))
+	if (!(Sprite::initWithFile(PNG_HERO1_00) && initAnimate()))
 	{
 		return false;
 	}
 	this->setScale(0.2);
-	_hitStatus == EHitStatus::NOPE;
 	return true;
 }
 
-void CHero::update(float dt)
+void CHero::runAnimate(EHeroStatus status, int i)
 {
-	
+	switch (status)
+	{
+	case NORMAL_ATTACK:
+		runSkillAnimate(_animatesNormalAttack.at(i));
+		break;
+	case STRONG_ATTACK:
+		runSkillAnimate(_animatesStrongAttack.at(i));
+		break;
+	case RUN:
+		runAction(_animatesRun.at(i));
+		break;
+	default:
+		break;
+	}
 }
 
-bool CHero::initKeyboard()
+void CHero::runSkillAnimate(cocos2d::Animate * animate)
 {
-	auto listener = EventListenerKeyboard::create();
-	listener->onKeyReleased = [&](EventKeyboard::KeyCode k, Event* e) {
-		switch (k)
-		{
-		case EventKeyboard::KeyCode::KEY_SPACE:
-			_status = EHeroStatus::NORMAL_ATTACK;
-			if (_hitStatus == EHitStatus::PERFECT)
-			{
-				runAction(Sequence::create(_animateHitPerfect, _animateRun, nullptr));
-			}
-			else
-			{
-				runAction(Sequence::create(_animateHitMiss, _animateRun, nullptr));
-			}
-			break;
-		default:
-			break;
-		}
-	};
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-	return true;
-}
-
-void CHero::setStatus(int status)
-{
-	_status = status;
-}
-
-void CHero::setHitStatus(int status)
-{
-	_hitStatus = status;
-}
-
-int CHero::getStatus()
-{
-	return _status;
-}
-
-int CHero::getHitStatus()
-{
-	return _hitStatus;
+	runAction(Sequence::create(animate, _animatesRun.at(0), nullptr));
 }
 
 bool CHero::initAnimate()
 {
-	if (! (initAnimateRun() && initAnimateHitPerfect() && initAnimateHitGood() && initAnimateHitMiss()))
+	if (! (initAnimatesNormalAttack() && initAnimatesRun()))
 	{
 		return false;
 	}
 	return true;
 }
 
-bool CHero::initAnimateHitPerfect()
+bool CHero::initAnimatesNormalAttack()
+{
+	if (! (initAnimateNormalAttackPerfect() && initAnimateNormalAttackGood() && initAnimateNormalAttackMiss()))
+	{
+		return false;
+	}
+	return true;
+}
+
+bool CHero::initAnimateNormalAttackPerfect()
 {
 	auto sp0 = Sprite::create(PNG_HERO1_01);
 
 	Vector<SpriteFrame*> list;
 	list.pushBack(SpriteFrame::createWithTexture(sp0->getTexture(), sp0->getTextureRect()));
 
-	_animateHitPerfect = Animate::create(Animation::createWithSpriteFrames(list, 0.1));
-	_animateHitPerfect->retain();
+	_animatesNormalAttack.pushBack(Animate::create(Animation::createWithSpriteFrames(list, 0.2)));
 	return true;
 }
 
-bool CHero::initAnimateHitGood()
+bool CHero::initAnimateNormalAttackGood()
 {
 	auto sp0 = Sprite::create(PNG_HERO1_02);
 
 	Vector<SpriteFrame*> list;
 	list.pushBack(SpriteFrame::createWithTexture(sp0->getTexture(), sp0->getTextureRect()));
 
-	_animateHitGood = Animate::create(Animation::createWithSpriteFrames(list, 0.1));
-	_animateHitGood->retain();
+	_animatesNormalAttack.pushBack( Animate::create(Animation::createWithSpriteFrames(list, 0.2)) );
 	return true;
 }
 
-bool CHero::initAnimateHitMiss()
+bool CHero::initAnimateNormalAttackMiss()
 {
 	auto sp0 = Sprite::create(PNG_HERO1_03);
 
 	Vector<SpriteFrame*> list;
 	list.pushBack(SpriteFrame::createWithTexture(sp0->getTexture(), sp0->getTextureRect()));
 
-	_animateHitMiss = Animate::create(Animation::createWithSpriteFrames(list, 0.1));
-	_animateHitMiss->retain();
+	_animatesNormalAttack.pushBack(Animate::create(Animation::createWithSpriteFrames(list, 0.2)));
 	return true;
 }
 
-bool CHero::initAnimateRun()
+bool CHero::initAnimatesRun()
+{
+	if (! initAnimateNormalRun())
+	{
+		return false;
+	}
+	return true;
+}
+
+bool CHero::initAnimateNormalRun()
 {
 	auto sp0 = Sprite::create(PNG_HERO1_00);
 
 	Vector<SpriteFrame*> list;
 	list.pushBack(SpriteFrame::createWithTexture(sp0->getTexture(), sp0->getTextureRect()));
 
-	_animateRun = Animate::create(Animation::createWithSpriteFrames(list, 0.1));
-	_animateRun->retain();
+	_animatesRun.pushBack(Animate::create(Animation::createWithSpriteFrames(list, 0.2)));
 	return true;
-}
-
-void CHero::updateAnimate(float dt)
-{
-	
 }
