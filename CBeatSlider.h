@@ -37,6 +37,9 @@ public:
 	void moveBeat(int i);
 	void resetBeat(int i);
 
+	// getter
+	int getHitStatus();
+
 private:
 	bool initSpTarget();
 	bool initMusic();

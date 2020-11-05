@@ -2,12 +2,14 @@
 #include "cocos2d.h"
 #include "CMusic.h"
 #include "CBeatSlider.h"
+#include "CHero.h"
 
 class SceneGamePlay : public cocos2d::Scene
 {
 private:
 	CMusic* _music;
 	CBeatSlider* _beatSlider;
+	CHero* _hero;
 
 public:
 	//~SceneGamePlay();
@@ -20,5 +22,8 @@ public:
 	
 private:
 	bool initBeatSlider();
+	bool initHero();
+
+	void updateHeroStatus(float dt);
 };
 

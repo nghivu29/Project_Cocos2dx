@@ -31,7 +31,9 @@ bool CBeatSlider::init()
 	}
 
 	auto keyListener = EventListenerKeyboard::create();
-	keyListener->onKeyPressed = CC_CALLBACK_2(CBeatSlider::onKeyPressed, this);
+	keyListener->onKeyPressed = [&](EventKeyboard::KeyCode k, Event* e) {
+		onKeyPressed(k, e); 
+	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 
 	return true;
@@ -54,6 +56,11 @@ void CBeatSlider::resetBeat(int i)
 	_spBeats[i]->setFrameStart(startFrame);
 	_spBeats[i]->setFrameTarget(startFrame += _music->getFramePerMeasume());
 	_spBeats[i]->stopAllActions();
+}
+
+int CBeatSlider::getHitStatus()
+{
+	return _hitStatus;
 }
 
 bool CBeatSlider::initSpTarget()
@@ -146,7 +153,7 @@ void CBeatSlider::updateStatus(float dt)
 
 void CBeatSlider::onKeyPressed(cocos2d::EventKeyboard::KeyCode key, cocos2d::Event *)
 {
-	switch (key)
+	/*switch (key)
 	{
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		SimpleAudioEngine::getInstance()->playEffect(WAV_BEAT);
@@ -155,7 +162,10 @@ void CBeatSlider::onKeyPressed(cocos2d::EventKeyboard::KeyCode key, cocos2d::Eve
 		break;
 	default:
 		break;
-	}
+	}*/
+	SimpleAudioEngine::getInstance()->playEffect(WAV_BEAT);
+	updateStatus(0);
+	showHitStatus();
 }
 
 void CBeatSlider::showHitStatus()

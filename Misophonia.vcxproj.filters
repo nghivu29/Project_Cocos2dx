@@ -26,6 +26,7 @@
     <ClCompile Include="CBeatSlider.cpp" />
     <ClCompile Include="CMusic.cpp" />
     <ClCompile Include="CBeatSprite.cpp" />
+    <ClCompile Include="CHero.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -45,6 +46,7 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="CBeatSprite.h" />
+    <ClInclude Include="CHero.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
