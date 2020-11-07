@@ -54,24 +54,25 @@ bool SceneGamePlay::initHero()
 }
 
 /*
-* Key Z: là NORMAL_ATTACK
-* Key X: là STRONG_ATTACK
+* KEY_X: là NORMAL_ATTACK
+* KEY_C: là STRONG_ATTACK
+* KEY_UP_ARROW: là JUMP
 */
 bool SceneGamePlay::initEventListenerKeyboard()
 {
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = [&](EventKeyboard::KeyCode k, Event* e) {
 		_beatSlider->onKeyPressed(k, e);
-		switch (_beatSlider->getHitStatus())
+		switch (k)
 		{
-		case EHitStatus::PERFECT:
-			_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 0);
+		case EventKeyboard::KeyCode::KEY_X:
+			onNomarlAttackKeyPress();
 			break;
-		case EHitStatus::GOOD:
-			_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 1);
+		case EventKeyboard::KeyCode::KEY_C:
+			onStrongAttackKeyPress();
 			break;
-		case EHitStatus::MISS:
-			_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 2);
+		case EventKeyboard::KeyCode::KEY_UP_ARROW:
+			onJumpKeyPress();
 			break;
 		default:
 			break;
@@ -79,6 +80,33 @@ bool SceneGamePlay::initEventListenerKeyboard()
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 	return true;
+}
+
+void SceneGamePlay::onNomarlAttackKeyPress()
+{
+	switch (_beatSlider->getHitStatus())
+	{
+	case EHitStatus::PERFECT:
+		_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 0);
+		break;
+	case EHitStatus::GOOD:
+		_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 1);
+		break;
+	case EHitStatus::MISS:
+		_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 2);
+		break;
+	default:
+		break;
+	}
+}
+
+void SceneGamePlay::onStrongAttackKeyPress()
+{
+}
+
+void SceneGamePlay::onJumpKeyPress()
+{
+	_hero->runAnimate(EHeroStatus::JUMP, 0);
 }
 
 

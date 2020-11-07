@@ -24,6 +24,10 @@ private:
 	bool initBeatSlider();
 	bool initHero();
 	bool initEventListenerKeyboard();
+	
+	void onNomarlAttackKeyPress();
+	void onStrongAttackKeyPress();
+	void onJumpKeyPress();
 
 };
 

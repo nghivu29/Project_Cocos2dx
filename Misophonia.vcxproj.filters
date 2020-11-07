@@ -47,6 +47,9 @@
     </ClInclude>
     <ClInclude Include="CBeatSprite.h" />
     <ClInclude Include="CHero.h" />
+    <ClInclude Include="Weapon.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

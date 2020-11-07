@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "cocos2d.h"
+#include "Weapon.h"
 
 // ve viet lai lop nay
 // thiet ke bi sai roi
@@ -8,7 +9,8 @@ enum EHeroStatus
 {
 	NORMAL_ATTACK,
 	STRONG_ATTACK,
-	RUN
+	RUN,
+	JUMP
 };
 
 class CHero : public cocos2d::Sprite
@@ -18,6 +20,10 @@ private:
 	cocos2d::Vector <cocos2d::Animate*> _animatesNormalAttack;
 	cocos2d::Vector <cocos2d::Animate*> _animatesStrongAttack;
 	cocos2d::Vector <cocos2d::Animate*> _animatesRun;
+	cocos2d::Vector <cocos2d::Animate*> _animatesJump;
+
+	// các thuộc tính của hero
+	EWeapon _weapon;
 
 public:
 	virtual bool init();
@@ -26,6 +32,7 @@ public:
 	// gọi hero thực hiện animate; i vị trí được định nghị như bên dưới hàm initAnimates
 	void runAnimate(EHeroStatus status, int i);
 	void runSkillAnimate(cocos2d::Animate* animate);
+	void runJumpAnimate(cocos2d::Animate* animate);
 
 	 
 private:
@@ -40,5 +47,8 @@ private:
 	// các animate của Run
 	bool initAnimatesRun(); // length = 1
 	bool initAnimateNormalRun(); // i = 0
+
+	// các animate của Jump
+	bool initAnimatesJump();
 };
 

@@ -6,7 +6,7 @@ USING_NS_CC;
 
 bool CHero::init()
 {
-	if (!(Sprite::initWithFile(PNG_HERO1_00) && initAnimate()))
+	if (!(Sprite::initWithFile("ninjaadventurenew/png/Run__000.png") && initAnimate()))
 	{
 		return false;
 	}
@@ -27,6 +27,8 @@ void CHero::runAnimate(EHeroStatus status, int i)
 	case RUN:
 		runAction(_animatesRun.at(i));
 		break;
+	case JUMP:
+		runJumpAnimate(_animatesJump.at(i));
 	default:
 		break;
 	}
@@ -34,12 +36,22 @@ void CHero::runAnimate(EHeroStatus status, int i)
 
 void CHero::runSkillAnimate(cocos2d::Animate * animate)
 {
+	stopAllActions();
 	runAction(Sequence::create(animate, _animatesRun.at(0), nullptr));
 }
 
+void CHero::runJumpAnimate(cocos2d::Animate * animate)
+{
+	stopAllActions();
+	runAction(Sequence::create(MoveBy::create(0.5, Vec2(0, 100)), MoveBy::create(0.5, Vec2(0, -100)), nullptr));
+	runAction(Sequence::create(animate, _animatesRun.at(0), nullptr));
+
+}
+
+
 bool CHero::initAnimate()
 {
-	if (! (initAnimatesNormalAttack() && initAnimatesRun()))
+	if (! (initAnimatesNormalAttack() && initAnimatesRun() && initAnimatesJump()))
 	{
 		return false;
 	}
@@ -79,12 +91,15 @@ bool CHero::initAnimateNormalAttackGood()
 
 bool CHero::initAnimateNormalAttackMiss()
 {
-	auto sp0 = Sprite::create(PNG_HERO1_03);
-
 	Vector<SpriteFrame*> list;
-	list.pushBack(SpriteFrame::createWithTexture(sp0->getTexture(), sp0->getTextureRect()));
+	Sprite* sp0 = nullptr;
+	for (size_t i = 0; i < 9; i++)
+	{
+		sp0 = Sprite::create(StringUtils::format("ninjaadventurenew/png/Attack__00%d.png", i));
+		list.pushBack(SpriteFrame::createWithTexture(sp0->getTexture(), sp0->getTextureRect()));
+	}
 
-	_animatesNormalAttack.pushBack(Animate::create(Animation::createWithSpriteFrames(list, 0.2)));
+	_animatesNormalAttack.pushBack(Animate::create(Animation::createWithSpriteFrames(list, 0.05f)));
 	return true;
 }
 
@@ -99,11 +114,28 @@ bool CHero::initAnimatesRun()
 
 bool CHero::initAnimateNormalRun()
 {
-	auto sp0 = Sprite::create(PNG_HERO1_00);
-
 	Vector<SpriteFrame*> list;
-	list.pushBack(SpriteFrame::createWithTexture(sp0->getTexture(), sp0->getTextureRect()));
+	Sprite* sp0 = nullptr;
+	for (size_t i = 0; i < 9; i++)
+	{
+		sp0 = Sprite::create(StringUtils::format("ninjaadventurenew/png/Run__00%d.png", i));
+		list.pushBack(SpriteFrame::createWithTexture(sp0->getTexture(), sp0->getTextureRect()));
+	}
+	auto animate = Animate::create(Animation::createWithSpriteFrames(list, 0.1, -1));
+	_animatesRun.pushBack(animate);
+	return true;
+}
 
-	_animatesRun.pushBack(Animate::create(Animation::createWithSpriteFrames(list, 0.2)));
+bool CHero::initAnimatesJump()
+{
+	Vector<SpriteFrame*> list;
+	Sprite* sp0 = nullptr;
+	for (size_t i = 0; i < 9; i++)
+	{
+		sp0 = Sprite::create(StringUtils::format("ninjaadventurenew/png/Jump__00%d.png", i));
+		list.pushBack(SpriteFrame::createWithTexture(sp0->getTexture(), sp0->getTextureRect()));
+	}
+	auto animate = Animate::create(Animation::createWithSpriteFrames(list, 0.1));
+	_animatesJump.pushBack(animate);
 	return true;
 }
