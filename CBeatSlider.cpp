@@ -29,6 +29,7 @@ bool CBeatSlider::init()
 	{
 		return false;
 	}
+	scheduleUpdate();
 	return true;
 }
 
@@ -54,6 +55,16 @@ void CBeatSlider::resetBeat(int i)
 int CBeatSlider::getHitStatus()
 {
 	return _hitStatus;
+}
+
+CMusic * CBeatSlider::getMusic()
+{
+	return _music;
+}
+
+CBeatSprite ** CBeatSlider::getSpBeats()
+{
+	return _spBeats;
 }
 
 bool CBeatSlider::initSpTarget()
@@ -112,7 +123,6 @@ void CBeatSlider::updateMusic(float dt)
 
 void CBeatSlider::updateBeats(float dt)
 {
-	US_VISIBLE;
 	for (size_t i = 0; i < BEATSLIDER_CAPACITY; i++)
 	{
 		if (_music->getFrame() == _spBeats[i]->getFrameStart())

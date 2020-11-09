@@ -18,6 +18,7 @@
 #define PNG_HERO1_01 "img/hero1_01.png"
 #define PNG_HERO1_02 "img/hero1_02.png"
 #define PNG_HERO1_03 "img/hero1_03.png"
+#define PNG_SMALL_SPHERICAL_MONSTER "enemy/spherical_monter/png/monster01.png"
 
 // front file
 #define TTF_MARKER_FELT "fonts/Marker Felt.ttf"

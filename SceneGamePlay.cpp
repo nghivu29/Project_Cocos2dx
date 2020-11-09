@@ -9,7 +9,7 @@ cocos2d::Scene * SceneGamePlay::createScene()
 
 bool SceneGamePlay::init()
 {
-	if (!( Scene::init() && initBeatSlider() && initHero() && initEventListenerKeyboard()))
+	if (!( Scene::init() && initBeatSlider() && initHero() && initEnemies() && initEventListenerKeyboard()))
 	{
 		return false;
 	}
@@ -29,7 +29,7 @@ bool SceneGamePlay::init()
 
 void SceneGamePlay::update(float dt)
 {
-	_beatSlider->update(dt);
+	enemyManager->updateEnemy();
 }
 
 bool SceneGamePlay::initBeatSlider()
@@ -51,6 +51,13 @@ bool SceneGamePlay::initHero()
 	_hero->setPosition(origin.x + visibleSize.width*0.1f, origin.y + visibleSize.height*GROUND_HEIGHT_RATIO);
 	this->addChild(_hero);
 	return true;
+}
+
+bool SceneGamePlay::initEnemies()
+{
+	enemyManager = new CEnemyManager();
+	enemyManager->setBeatSlider(_beatSlider);
+	return enemyManager->initEnemiesInScene(this);
 }
 
 /*
@@ -87,13 +94,13 @@ void SceneGamePlay::onNomarlAttackKeyPress()
 	switch (_beatSlider->getHitStatus())
 	{
 	case EHitStatus::PERFECT:
-		_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 0);
+		_hero->runAnimate(EActorStatus::NORMAL_ATTACK, 0);
 		break;
 	case EHitStatus::GOOD:
-		_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 1);
+		_hero->runAnimate(EActorStatus::NORMAL_ATTACK, 1);
 		break;
 	case EHitStatus::MISS:
-		_hero->runAnimate(EHeroStatus::NORMAL_ATTACK, 2);
+		_hero->runAnimate(EActorStatus::NORMAL_ATTACK, 2);
 		break;
 	default:
 		break;
@@ -106,7 +113,7 @@ void SceneGamePlay::onStrongAttackKeyPress()
 
 void SceneGamePlay::onJumpKeyPress()
 {
-	_hero->runAnimate(EHeroStatus::JUMP, 0);
+	_hero->runAnimate(EActorStatus::JUMP, 0);
 }
 
 

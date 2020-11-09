@@ -42,6 +42,8 @@ public:
 
 	// getter
 	int getHitStatus();
+	CMusic* getMusic();
+	CBeatSprite** getSpBeats();
 
 private:
 	bool initSpTarget();

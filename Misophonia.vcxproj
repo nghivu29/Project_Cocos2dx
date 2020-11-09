@@ -151,8 +151,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="CActor.cpp" />
     <ClCompile Include="CBeatSlider.cpp" />
     <ClCompile Include="CBeatSprite.cpp" />
+    <ClCompile Include="CEnemy.cpp" />
+    <ClCompile Include="CEnemyManager.cpp" />
     <ClCompile Include="CHero.cpp" />
     <ClCompile Include="CMusic.cpp" />
     <ClCompile Include="CSpGround.cpp" />
@@ -162,8 +165,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="CActor.h" />
     <ClInclude Include="CBeatSlider.h" />
     <ClInclude Include="CBeatSprite.h" />
+    <ClInclude Include="CEnemy.h" />
+    <ClInclude Include="CEnemyManager.h" />
     <ClInclude Include="CHero.h" />
     <ClInclude Include="CMusic.h" />
     <ClInclude Include="common.h" />

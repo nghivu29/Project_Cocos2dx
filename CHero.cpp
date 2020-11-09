@@ -14,7 +14,7 @@ bool CHero::init()
 	return true;
 }
 
-void CHero::runAnimate(EHeroStatus status, int i)
+void CHero::runAnimate(EActorStatus status, int i)
 {
 	switch (status)
 	{

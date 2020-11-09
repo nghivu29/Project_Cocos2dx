@@ -27,6 +27,9 @@
     <ClCompile Include="CMusic.cpp" />
     <ClCompile Include="CBeatSprite.cpp" />
     <ClCompile Include="CHero.cpp" />
+    <ClCompile Include="CEnemy.cpp" />
+    <ClCompile Include="CActor.cpp" />
+    <ClCompile Include="CEnemyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -50,6 +53,9 @@
     <ClInclude Include="Weapon.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="CEnemy.h" />
+    <ClInclude Include="CActor.h" />
+    <ClInclude Include="CEnemyManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
