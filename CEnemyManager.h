@@ -1,24 +1,24 @@
 #pragma once
 #include "cocos2d.h"
 #include "CEnemy.h"
-#include "CBeatSlider.h"
+#include "CMusic.h"
 
 class CEnemyManager
 {
 private:
 	CEnemy** _enemies;
 	float* positionY;
-	CBeatSlider* _beatSlider;
+	CMusic* _music;
 
 public:
 	CEnemyManager();
 	bool initEnemiesInScene(cocos2d::Scene* scene);
-	void updateEnemy();
-	void setBeatSlider(CBeatSlider* beatSlider);
+	void setMusic(CMusic* music);
 
-private:
-	void setRandomPositionY(CEnemy* enemy);
-	void moveEnemy(CEnemy* enemy);
+	void setRandomPositionY(int i);
+	void moveEnemy(int i);
+	void resetEnemy(int i);
+	CEnemy* getEnemy(int i);
 
 };
 

@@ -9,10 +9,13 @@ cocos2d::Scene * SceneGamePlay::createScene()
 
 bool SceneGamePlay::init()
 {
-	if (!( Scene::init() && initBeatSlider() && initHero() && initEnemies() && initEventListenerKeyboard()))
+	if (!( Scene::init() && initBeatSlider() && initHero() && initEventListenerKeyboard() && initEnemyManager()))
 	{
 		return false;
 	}
+
+	auto layer = LayerColor::create(Color4B::GRAY);
+	addChild(layer, -20);
 
 	// loop test music
 	auto listener = EventListenerTouchOneByOne::create();
@@ -29,7 +32,14 @@ bool SceneGamePlay::init()
 
 void SceneGamePlay::update(float dt)
 {
-	enemyManager->updateEnemy();
+	for (size_t i = 0; i < BEATSLIDER_CAPACITY; i++)
+	{
+		if (_beatSlider->getEnemyManager()->getEnemy(i)->getBoundingBox().intersectsRect(_hero->getBoundingBox())
+			&& _beatSlider->getHitStatus() != EHitStatus::MISS)
+		{
+			_beatSlider->getEnemyManager()->getEnemy(i)->runAction(MoveTo::create(1, Vec2(500, 500)));
+		}
+	}
 }
 
 bool SceneGamePlay::initBeatSlider()
@@ -53,12 +63,6 @@ bool SceneGamePlay::initHero()
 	return true;
 }
 
-bool SceneGamePlay::initEnemies()
-{
-	enemyManager = new CEnemyManager();
-	enemyManager->setBeatSlider(_beatSlider);
-	return enemyManager->initEnemiesInScene(this);
-}
 
 /*
 * KEY_X: là NORMAL_ATTACK
@@ -86,6 +90,12 @@ bool SceneGamePlay::initEventListenerKeyboard()
 		}
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+	return true;
+}
+
+bool SceneGamePlay::initEnemyManager()
+{
+	_beatSlider->getEnemyManager()->initEnemiesInScene(this);
 	return true;
 }
 

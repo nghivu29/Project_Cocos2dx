@@ -2,6 +2,7 @@
 #include "cocos2d.h"
 #include "CMusic.h"
 #include "CBeatSprite.h"
+#include "CEnemyManager.h"
 
 enum EHitStatus
 {
@@ -19,9 +20,10 @@ protected:
 	CMusic* _music;
 	cocos2d::Sprite* _spTarget;
 	CBeatSprite** _spBeats;
+	CEnemyManager* _enemymanger;
 
 	cocos2d::Label* _lbHitStatus;
-	int _hitStatus;
+	int _hitStatus = -1;
 
 private:
 	// đây không phải thuộc tính
@@ -44,12 +46,14 @@ public:
 	int getHitStatus();
 	CMusic* getMusic();
 	CBeatSprite** getSpBeats();
+	CEnemyManager* getEnemyManager();
 
 private:
 	bool initSpTarget();
 	bool initMusic();
 	bool initSpBeats();
 	bool initLbHitStatus();
+	bool initEnemyManger();
 
 	void updateMusic(float dt);
 	void updateBeats(float dt);

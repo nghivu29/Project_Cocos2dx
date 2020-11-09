@@ -25,7 +25,7 @@ void CBeatSlider::update(float dt)
 bool CBeatSlider::init()
 {
 	// init sp target
-	if (! (initMusic() && initSpTarget() && initSpBeats() && initLbHitStatus()) )
+	if (! (initMusic() && initSpTarget() && initSpBeats() && initLbHitStatus() && initEnemyManger()) )
 	{
 		return false;
 	}
@@ -65,6 +65,11 @@ CMusic * CBeatSlider::getMusic()
 CBeatSprite ** CBeatSlider::getSpBeats()
 {
 	return _spBeats;
+}
+
+CEnemyManager * CBeatSlider::getEnemyManager()
+{
+	return _enemymanger;
 }
 
 bool CBeatSlider::initSpTarget()
@@ -112,6 +117,13 @@ bool CBeatSlider::initLbHitStatus()
 	return true;
 }
 
+bool CBeatSlider::initEnemyManger()
+{
+	_enemymanger = new CEnemyManager();
+	_enemymanger->setMusic(_music);
+	return true;
+}
+
 void CBeatSlider::updateMusic(float dt)
 {
 	if (!_music->isPlaying())
@@ -128,11 +140,13 @@ void CBeatSlider::updateBeats(float dt)
 		if (_music->getFrame() == _spBeats[i]->getFrameStart())
 		{
 			moveBeat(i);
+			_enemymanger->moveEnemy(i);
 		}
 
 		if (_music->getFrame() == _spBeats[i]->getFrameTarget() + 20)
 		{
 			resetBeat(i);
+			_enemymanger->resetEnemy(i);
 		}
 	}
 
